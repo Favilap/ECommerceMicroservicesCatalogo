@@ -287,11 +287,11 @@ app.MapPost("/api/orders/{id:int}/cancel", async (
             return Results.NotFound(ApiResponse<OrderDto>.Fail($"Pedico con ID {id} no se encontro"));
 
         // Publicar evento de cancelación
-        await publishEndpoint.Publish(new OrderCancelledEvent
-        {
-            OrderId = id,
-            Reason = "Cancelled by user"
-        });
+        //await publishEndpoint.Publish(new OrderCancelledEvent
+        //{
+        //    OrderId = id,
+        //    Reason = "Cancelled by user"
+        //});
 
         return Results.Ok(ApiResponse<OrderDto>.Ok(order, "Order cancelado ok"));
     }
@@ -368,15 +368,15 @@ app.MapPost("/api/orders/simple", async Task<IResult> (
         };
 
         // PASO 3: Publicar evento
-        var orderEvent = new SimpleOrderCreatedEvent
-        {
-            OrderId = orderId,
-            UserId = dto.UserId,
-            TotalAmount = dto.TotalAmount
-        };
+        //var orderEvent = new SimpleOrderCreatedEvent
+        //{
+        //    OrderId = orderId,
+        //    UserId = dto.UserId,
+        //    TotalAmount = dto.TotalAmount
+        //};
 
-        await publishEndpoint.Publish(orderEvent);
-        Log.Information("📤 Evento SimpleOrderCreated publicado");
+        //await publishEndpoint.Publish(orderEvent);
+        //Log.Information("📤 Evento SimpleOrderCreated publicado");
 
         return Results.Created($"/api/orders/{orderId}", new
         {

@@ -131,7 +131,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog Service API v1");
-        c.RoutePrefix = string.Empty; // Swagger en la raíz
     });
 }
 
@@ -219,16 +218,16 @@ app.MapPost("/api/products", async (
         var product = await catalogService.CreateProductAsync(dto);
 
         // NUEVO: Publicar evento a RabbitMQ
-        var productEvent = new ProductCreatedEvent
-        {
-            ProductId = product.Id,
-            ProductName = product.Name,
-            Price = product.Price,
-            Message = $"Producto '{product.Name}' creado exitosamente!"
-        };
+        //var productEvent = new ProductCreatedEvent
+        //{
+        //    ProductId = product.Id,
+        //    ProductName = product.Name,
+        //    Price = product.Price,
+        //    Message = $"Producto '{product.Name}' creado exitosamente!"
+        //};
 
-        await publishEndpoint.Publish(productEvent);
-        Log.Information("✅ Evento ProductCreated publicado a RabbitMQ");
+        //await publishEndpoint.Publish(productEvent);
+        //Log.Information("✅ Evento ProductCreated publicado a RabbitMQ");
 
         return Results.Created($"/api/products/{product.Id}",
             ApiResponse<ProductDto>.Ok(product, "Producto creado y evento publicado"));

@@ -52,7 +52,8 @@ namespace OrderService.Services
                     }
 
                     var productJson = await productResponse.Content.ReadAsStringAsync();
-                    var product = System.Text.Json.JsonSerializer.Deserialize<ProductInfo>(productJson);
+                    var product = System.Text.Json.JsonSerializer.Deserialize<ProductInfo>(productJson,
+                        new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
                     if (product?.Data != null)
                     {
@@ -81,19 +82,19 @@ namespace OrderService.Services
                 var createdOrder = await _orderService.CreateOrderAsync(order);
 
                 // 4. Publicar evento OrderCreated para iniciar la saga
-                await _publishEndpoint.Publish(new OrderCreatedEvent
-                {
-                    OrderId = createdOrder.Id,
-                    UserId = dto.UserId,
-                    TotalAmount = totalAmount,
-                    Items = createdOrder.Items.Select(i => new ECommerce.Common.Events.OrderItemDto
-                    {
-                        ProductId = i.ProductId,
-                        ProductName = i.ProductName,
-                        Quantity = i.Quantity,
-                        Price = i.UnitPrice
-                    }).ToList()
-                });
+                //await _publishEndpoint.Publish(new OrderCreatedEvent
+                //{
+                //    OrderId = createdOrder.Id,
+                //    UserId = dto.UserId,
+                //    TotalAmount = totalAmount,
+                //    Items = createdOrder.Items.Select(i => new ECommerce.Common.Events.OrderItemDto
+                //    {
+                //        ProductId = i.ProductId,
+                //        ProductName = i.ProductName,
+                //        Quantity = i.Quantity,
+                //        Price = i.UnitPrice
+                //    }).ToList()
+                //});
 
                 _logger.LogInformation("Pedido saga para el pedido {OrderId}", createdOrder.Id);
 

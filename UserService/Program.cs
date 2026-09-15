@@ -60,8 +60,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Configurar Entity Framework sin dccker
-//builder.Services.AddDbContext<UserDbContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<UserDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDbContext<UserDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
