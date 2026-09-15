@@ -112,14 +112,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Configurar HttpClient para comunicación síncrona
-builder.Services.AddHttpClient("UserService", client =>
-{
-    client.BaseAddress = new Uri("http://localhost:5002/"); // Puerto de UserService
-client.Timeout = TimeSpan.FromSeconds(30);
-});
-
-
 // Configurar RabbitMQ
 //builder.Services.AddMassTransit(x =>
 //{
